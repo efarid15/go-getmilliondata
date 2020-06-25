@@ -16,6 +16,6 @@ func main() {
 }
 
 func home(w http.ResponseWriter, r *http.Request)  {
-	println("Hello World")
+	println("Get Million Data")
 }
 
