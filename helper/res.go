@@ -12,11 +12,17 @@ func ResponseJSON(w http.ResponseWriter, payload interface{}, status int) {
 		ok = http.StatusOK
 		created = http.StatusCreated
 		internalservererror = http.StatusInternalServerError
+		methodnotallowed = http.StatusMethodNotAllowed
 	)
 
 	switch status {
 	case internalservererror:
 		mapdata["status"] = internalservererror
+		mapdata["message"] = "failed"
+		mapdata["data"] = payload
+
+	case methodnotallowed:
+		mapdata["status"] = methodnotallowed
 		mapdata["message"] = "failed"
 		mapdata["data"] = payload
 
