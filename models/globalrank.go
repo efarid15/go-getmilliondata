@@ -8,10 +8,11 @@ import (
 )
 
 type Domain struct {
-	Domain     string `json:"Domain"`
-	GlobalRank int64  `json:"GlobalRank"`
-	TLD        string `json:"TLD"`
-	IDNDomain  string `json:"IDN_Domain"`
+	ID 			int64 `json:"id"`
+	Domain     string `json:"domain"`
+	GlobalRank int64  `json:"globalrank"`
+	TLD        string `json:"tld"`
+	IDNDomain  string `json:"idndomain"`
 }
 
 const (
@@ -30,14 +31,14 @@ func GetAll(ctx context.Context, limit int, offset int) ([]Domain, error) {
 	helper.ErrorCheck(err)
 	defer db.Close()
 
-	queryText := fmt.Sprintf("SELECT GlobalRank, Domain, TLD, IDN_Domain FROM %v ORDER BY GlobalRank LIMIT %d OFFSET %d", table, l, o)
+	queryText := fmt.Sprintf("SELECT id, globalrank, domain, tld, idndomain FROM %v ORDER BY globalrank LIMIT %d OFFSET %d", table, l, o)
 	fmt.Println(queryText)
 	rowQuery, err := db.QueryContext(ctx, queryText)
 	helper.ErrorCheck(err)
 
 	defer rowQuery.Close()
 	for rowQuery.Next() {
-		e = rowQuery.Scan(&domain.GlobalRank, &domain.Domain, &domain.TLD, &domain.IDNDomain)
+		e = rowQuery.Scan(&domain.ID, &domain.GlobalRank, &domain.Domain, &domain.TLD, &domain.IDNDomain)
 		helper.ErrorCheck(e)
 		domains = append(domains, domain)
 	}
